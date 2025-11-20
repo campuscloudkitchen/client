@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --color-pri: #F28C28;
+  --default-font-family: "Poppins", sans-serif;
+}
+
+.offscreen {
+  @apply absolute -left-[100000000px]
+}
+
+.input-field {
+  @apply border border-[#c4c4c4] w-full rounded-md text-sm p-2.5 inset-shadow-2xs focus:ring-0 focus:outline-0 placeholder:text-[#c4c4c4]
+}
