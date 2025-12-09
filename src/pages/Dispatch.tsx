@@ -24,7 +24,7 @@ const Dispatch: React.FC = () => {
     return (
         <>
             <Header />
-            <main className='pt-16 px-4 min-h-screen flex flex-col max-w-6xl mx-auto'>
+            <main className='pt-16 px-4 min-h-screen flex flex-col max-w-2xl mx-auto'>
                 <div className='w-full relative'>
                     <input type="text" className='input-field' placeholder='Search' onChange={handleChange} />
                     <Search size={18} className='text-[#c4c4c4] absolute right-2 top-1/2 -translate-y-1/2' />

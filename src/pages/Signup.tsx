@@ -44,7 +44,7 @@ const Signup: React.FC = () => {
             <Toast toastProps={toastProps} setToastProps={setToastProps}/>
             <div className='flex flex-col items-center gap-1'>
                 <img src="/logo.png" alt="" className='w-25' />
-                <h1 className='text-[0.75rem] mb-2'>Signin to access your account!</h1>
+                <h1 className='text-[0.75rem] mb-2'>Create your account!</h1>
             </div>
             <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center w-full gap-2 max-w-[300px]">
                 <div className="w-full">

@@ -8,13 +8,16 @@ import { addToCartLocal } from '../app/cartSlice';
 
 const FoodExerpt: React.FC<{ food: FoodType }> = ({ food }) => {
 
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const cart = useAppSelector(state => state.cart.items);
   const alreadyInCart = cart.some(item => item.foodId === food.id) ?? false;
   const user = useAppSelector(state => state.auth.user);
   const [addToCart, { isLoading }] = useAddToCartMutation();
   const handleAddToCart = async () => {
-    if(!user?.id) return;
+    if(!user?.id) {
+      navigate("/signin")
+      return};
     const body = { userId: user?.id ?? "", foodId: food.id }
     try{
       const res = await addToCart(body).unwrap();
@@ -33,7 +36,6 @@ const FoodExerpt: React.FC<{ food: FoodType }> = ({ food }) => {
 
   const location = useLocation();
   const pathname = location.pathname;
-  const navigate = useNavigate();
 
   return (
     <div key={food.id} className='flex flex-col text-sm border border-gray-400 rounded-lg overflow-hidden'>

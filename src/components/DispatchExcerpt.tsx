@@ -3,11 +3,14 @@ import type { ToastProps, User } from '../utils/types'
 import { LoaderCircle, UserCircle } from 'lucide-react';
 import Toast from './Toast';
 import { useDeleteUserMutation } from '../app/api/user';
+import { useAppSelector } from '../app/hooks';
 
 const DispatchExcerpt: React.FC<{ dispatchRider: User }> = ({ dispatchRider }) => {
     const [toastProps, setToastProps] = useState<ToastProps>({ message: null, timeout: 0, isError: false });
     const [ deleteDispatch, { isLoading } ] = useDeleteUserMutation();
     const [showDialog, setShowDialog] = useState<boolean>(false);
+    const user = useAppSelector(state => state.auth.user);
+    console.log(user)
 
     const handleDelete = async () => {
         try{
@@ -25,7 +28,7 @@ const DispatchExcerpt: React.FC<{ dispatchRider: User }> = ({ dispatchRider }) =
         <div className='flex gap-2 justify-between items-center w-full p-2.5 border border-gray-200 bg-gray-100 shadow-xs rounded-xl'>
             <Toast toastProps={toastProps} setToastProps={setToastProps}/>
             <div className='flex gap-2 items-center'>
-                <UserCircle size={30}/>
+                {dispatchRider?.profileUrl ? <img src={dispatchRider.profileUrl} className='w-10 aspect-square rounded-full border border-gray-300 object-cover object-top' alt="" /> : <UserCircle />}
                 <div className='text-sm'>
                     <p className='font-bold'>{dispatchRider.firstname} {dispatchRider.lastname}</p>
                     <p>{dispatchRider.email}</p>

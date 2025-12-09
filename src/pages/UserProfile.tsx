@@ -30,7 +30,7 @@ const UserProfile: React.FC = () => {
         <>
             <Header />
             <Toast toastProps={toastProps} setToastProps={setToastProps}/>
-            <main className='fixed top-13 bottom-0 left-0 right-0 flex flex-col justify-start py-5 items-center px-10 text-sm gap-2'>
+            <main className='fixed top-13 bottom-0 left-0 right-0 flex flex-col justify-start py-5 items-center px-10 text-sm gap-2 max-w-2xl mx-auto'>
                 <div className='flex flex-col items-center'>
                     {<Link to={`/profile/${user?.id}`}>
                     {user?.profileUrl ? <img src={user.profileUrl} alt="" className='w-20 aspect-square object-cover object-top rounded-full mb-2' /> : <UserCircleIcon size={90} />}

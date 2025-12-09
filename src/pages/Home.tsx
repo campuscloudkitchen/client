@@ -38,8 +38,8 @@ const Home: React.FC = () => {
                     {foods.map(food => <FoodExerpt key={food.id} food={food} />)}
                 </div>}
             </main>}
-            {user?.role === "DISPATCH" && <main className='w-full min-h-screen px-4 pt-16 max-w-6xl mx-auto'>
-                <h2 className='font-bold mb-2 text-sm'>Orders</h2>
+            {user?.role === "DISPATCH" && <main className='w-full min-h-screen px-4 pt-16 max-w-2xl mx-auto'>
+                {(dispatchOrders ?? []).length > 0 && <h2 className='font-bold mb-2 text-sm'>Orders</h2>}
                 {isLoading ? <Loader /> : (dispatchOrders ?? []).length < 1 ? <div className='flex flex-col items-center text-gray-400 py-2 '><CircleSlash2 size={17} /><p className='text-center text-[0.7rem] font-bold'>You have no order for now!</p></div> : dispatchOrders && <div className='flex flex-col gap-2'>
                     {dispatchOrders.map(order => <OrderExcerpt order={order} />)}
                 </div>}

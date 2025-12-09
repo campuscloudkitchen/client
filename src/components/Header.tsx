@@ -45,7 +45,7 @@ const Header: React.FC<PropsType> = ({ setToastProps }) => {
             {(arrowLeftArray.includes(pathname) || arrowLeftArray.includes(pathname.split("/")[1])) ? <div onClick={() => navigate(-1)} ><ArrowLeft size={17} /></div> : <img src="/icon.png" onClick={() => navigate("/")} alt="cck-icon" title='CampusCloudKitchen Icon' className='w-10 cursor-pointer' />}
             <h1 className='text-[0.75rem] font-bold'>Campus Cloud Kitchen</h1>        
         </div>
-        <div>
+        {!user ? <Link to={"/signin"} className="text-[0.75rem] cursor-pointer hover:opacity-90 transition-opacity px-2 py-1.5 bg-pri rounded-md text-white font-bold flex justify-center items-center">{signingout ? <LoaderCircle size={16} className='animate-spin' /> : "Signin"}</Link> : <div>
           {pathname.includes("profile") ? <button onClick={handleSignOut} className="text-[0.75rem] cursor-pointer hover:opacity-90 transition-opacity px-2 py-1.5 bg-red-500 rounded-md text-white font-bold flex justify-center items-center">{signingout ? <LoaderCircle size={16} className='animate-spin' /> : "Signout"}</button> : <div className='flex items-center gap-2'>
             {(!pathname.includes("cart") && user?.role !== "DISPATCH") && <Link to={`/cart`}> <ShoppingCart />
             </Link>}
@@ -54,7 +54,7 @@ const Header: React.FC<PropsType> = ({ setToastProps }) => {
               {(notifications && notifications.length > 0) && <div className='absolute -top-1 -right-1 text-[0.7rem] bg-red-600 px-1 text-white rounded-full'>{notifications?.length}</div>}
             </Link>
           </div>}
-        </div>
+        </div>}
     </header>
   )
 }

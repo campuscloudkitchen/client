@@ -15,7 +15,7 @@ const ResetPassword: React.FC = () => {
     const [validationErrors, setValidationErrors] = useState<ResetPasswordValidationErrors>({ password: null, confirmpassword: null });
     const [toastProps, setToastProps] = useState<ToastProps>({ message: null, timeout: 0, isError: false });
 
-    const [params, setParams] = useSearchParams()
+    const [params] = useSearchParams();
     console.log(params.get("token"))
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -30,7 +30,7 @@ const ResetPassword: React.FC = () => {
         setValidationErrors(errors)
         if(Object.values(errors).filter(value => value !== null).length > 0) return 
         try{
-            const response = await resetPassword({password: formData.password, token: params.get("token") }).unwrap();
+            const response = await resetPassword({password: formData.password, token: params.get("token")! }).unwrap();
             if(response.message) setToastProps({ message: response.message, timeout: 5000, isError: false });
         }catch(err){
             if(err && typeof err === "object" && "data" in err){
@@ -48,7 +48,7 @@ const ResetPassword: React.FC = () => {
                 <img src="/logo.png" alt="" className='w-25' />
                 <h1 className='text-[0.75rem] mb-2'>Submit new password to reset!</h1>
             </div>
-            <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center w-full gap-2">
+            <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center w-full gap-2 max-w-[300px]">
                 <div className="w-full">
                     <div className='w-full relative'>
                         <label htmlFor='password' className='offscreen'>Password</label>

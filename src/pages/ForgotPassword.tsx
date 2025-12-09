@@ -35,7 +35,7 @@ const ForgotPassword: React.FC = () => {
                 <img src="/logo.png" alt="" className='w-25' />
                 <h1 className='text-[0.75rem] mb-2'>Submit your email to reset your password!</h1>
             </div>
-            <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center w-full gap-2">
+            <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center w-full gap-2 max-w-[300px]">
                 <div className="w-full">
                     <label htmlFor='email' className='offscreen'>Email</label>
                     <input type="text" name='email' className='input-field' placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} />

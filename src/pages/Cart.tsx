@@ -69,7 +69,7 @@ const Cart: React.FC = () => {
           const response = await createOrder(body).unwrap();
           if(response.id) {
               dispatch(clearLocalCart());
-              navigate("/kitchen")
+              navigate("/")
           }
       }catch(err){
           if(err && typeof err === "object" && "data" in err){
@@ -83,7 +83,7 @@ const Cart: React.FC = () => {
     <>
     <Header />
     <Toast toastProps={toastProps} setToastProps={setToastProps}/>
-    {cartItems.length === 0 ? <div className="fixed top-0 bottom-0 left-0 right-0 flex justify-center items-center">Your cart is empty!</div> : <div className="cart-container p-4 space-y-3 pt-17">
+    {cartItems.length === 0 ? <div className="fixed top-0 bottom-0 left-0 right-0 flex justify-center items-center">Your cart is empty!</div> : <div className="cart-container p-4 space-y-3 pt-17 max-w-2xl mx-auto">
       {cartItems.map((item) => (
         <div
           key={item.id}

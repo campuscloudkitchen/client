@@ -83,7 +83,7 @@ const OrderExcerpt: React.FC<{ order: Order }> = ({ order }) => {
                 </div>
             </div>
             {(order.status === "PENDING" && user?.role === "USER") && <button onClick={() => setShowDeliverDialog(true)} className='text-[0.8rem] bg-gray-400 py-1.5 rounded-lg flex justify-center items-center text-white'>PENDING</button>} 
-            {(order.status === "CONFIRMED" && user?.role === "DISPATCH") && <button onClick={() => setShowDeliverDialog(true)} className='text-[0.8rem] bg-pri py-1.5 rounded-lg flex justify-center items-center text-white font-bold'>Deliver</button>} 
+            {(order.status === "CONFIRMED" && user?.role === "DISPATCH") && <button onClick={() => setShowDeliverDialog(true)} className='text-[0.8rem] bg-pri py-1.5 rounded-lg flex justify-center items-center text-white font-bold cursor-pointer'>Deliver</button>} 
             {(order.status === "DELIVERED") && <p className='text-[0.8rem] bg-green-600 py-1.5 rounded-lg flex justify-center items-center text-white font-bold'>DELIVERED</p>} 
             {(order.status === "CANCELLED" && user?.role !== "DISPATCH") && <p className='text-[0.8rem] bg-red-600 py-1.5 rounded-lg flex justify-center items-center text-white'>CANCELLED</p>} 
             {(order.status === "CONFIRMED" && user?.role !== "DISPATCH") && <p className='text-[0.8rem] bg-green-600 py-1.5 rounded-lg flex justify-center items-center text-white'>CONFIRMED</p>} 
@@ -91,7 +91,7 @@ const OrderExcerpt: React.FC<{ order: Order }> = ({ order }) => {
                 <><button onClick={cancelOrder} disabled={isLoading} className='flex-1 h-full cursor-pointer bg-red-600 disabled:bg-gray-400'>{isLoading ? "Cancelling..." : "Cancel"}</button>
                 <button onClick={() => setShowDialog(true)} className='flex-1 h-full bg-pri cursor-pointer'>Dispatch</button></>
             </div>}
-            {showDialog && <><div onClick={() => setShowDialog(false)} className='absolute top-0 bottom-0 left-0 right-0 cursor-pointer bg-black/80 z-20 flex justify-center items-center'></div>
+            {showDialog && <><div onClick={() => setShowDialog(false)} className='fixed top-0 bottom-0 left-0 right-0 cursor-pointer bg-black/80 z-20 flex justify-center items-center'></div>
             <div className='bg-white p-4 max-w-[300px] rounded-xl flex flex-col items-center gap-1 w-full fixed z-50 left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2'>
                 <h2 className='text-sm font-bold'>Assign Dispatch</h2>
                 <select value={selectedRider} onChange={(e) => setSelectedRider(e.target.value)} className='w-full bg-gray-100 p-2 text-[0.8rem] rounded-lg'>
@@ -101,13 +101,14 @@ const OrderExcerpt: React.FC<{ order: Order }> = ({ order }) => {
                 {!selectedRider && <p className='text-[0.8rem] text-red-600'>Please select a dispatch rider!</p>}
                 <button onClick={assignDispatch} className='flex-1 rounded-xl w-full bg-pri text-white text-sm p-2 flex justify-center items-center cursor-pointer'>{assigning ? <LoaderCircle className='animate-spin' size={17} /> : "Assign"}</button>
             </div></>}
-            {showDeliverDialog && <div className='absolute top-0 bottom-0 left-0 right-0 bg-black/50 z-20 flex justify-center items-center'>
-                <div className='bg-white p-4 max-w-[300px] rounded-xl flex flex-col items-center gap-1 w-full'>
-                    <h2 className='text-sm font-bold'>Enter Order Id</h2>
-                    <input type="text" value={deliveryId} onChange={(e) => setDeliveryId(e.target.value)} className='w-full p-2 text-[0.8rem] rounded-lg outline-none border border-gray-300 inset-shadow-xs'/>
-                    <button onClick={deliverOrder} className='flex-1 rounded-xl w-full bg-pri text-white text-sm p-2 flex justify-center items-center cursor-pointer'>{isLoading ? <LoaderCircle className='animate-spin' size={17} /> : "Deliver"}</button>
-                </div>
-            </div>}
+            {showDeliverDialog && <>
+            <div className='fixed top-0 bottom-0 left-0 right-0 bg-black/50 z-20 flex justify-center items-center cursor-pointer' onClick={() => setShowDeliverDialog(false)}></div>
+            <div className='bg-white fixed top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-50 p-4 max-w-[300px] rounded-xl flex flex-col items-center gap-1 w-full'>
+                <h2 className='text-sm font-bold'>Enter Order Id</h2>
+                <input type="text" value={deliveryId} onChange={(e) => setDeliveryId(e.target.value)} className='w-full p-2 text-[0.8rem] rounded-lg outline-none border border-gray-300 inset-shadow-xs'/>
+                <button onClick={deliverOrder} className='flex-1 rounded-xl w-full bg-pri text-white text-sm p-2 flex justify-center items-center cursor-pointer'>{isLoading ? <LoaderCircle className='animate-spin' size={17} /> : "Deliver"}</button>
+            </div></>
+            }
         </div>
     )
 }

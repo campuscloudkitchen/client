@@ -25,8 +25,8 @@ const AppRoutes: React.FC = () => {
                 <Route path='/signup' element={<Signup />} />
                 <Route path='/forgotpassword' element={<ForgotPassword />} />
                 <Route path='/resetpassword' element={<ResetPassword />} />
+                <Route path='/' element={<Home />} />
                 <Route element={<ProtectedRoutes />}>
-                    <Route path='/' element={<Home />} />
                     <Route path='/updatefood/:id' element={<UpdateFood />} />
                     <Route path='/cart' element={<Cart />} />
                     <Route path='/kitchen'>
