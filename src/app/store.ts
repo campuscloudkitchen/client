@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { authReducer } from "./authSlice";
 import { cartReducer } from "./cartSlice";
 import api from "./apiSlice";
+import { cartSyncMiddleware } from "./middlewares/cartSyncMiddleware";
 
 const store = configureStore({
     reducer: {
@@ -9,7 +10,7 @@ const store = configureStore({
         cart: cartReducer,
         [api.reducerPath]: api.reducer
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware),
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware).concat(cartSyncMiddleware),
 });
 
 

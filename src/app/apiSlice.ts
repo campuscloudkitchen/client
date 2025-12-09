@@ -17,8 +17,8 @@ const baseQuery = fetchBaseQuery({
 
 const baseQueryWithReAuth: BaseQueryFn = async (args, api, extraOptions) => {
     let result = await baseQuery(args, api, extraOptions);
-    if(result.error?.status === 401){
-        const refreshResult = await baseQuery("/refresh", api, extraOptions);
+    if(result.error?.status === 403){
+        const refreshResult = await baseQuery("/auth/refresh", api, extraOptions);
         if(refreshResult.data){
             const data = refreshResult.data as SigninReturnType;
             api.dispatch(setCredentials(data));
@@ -35,7 +35,7 @@ const baseQueryWithReAuth: BaseQueryFn = async (args, api, extraOptions) => {
 const api = createApi({
     reducerPath: "api",
     baseQuery: baseQueryWithReAuth,
-    tagTypes: ["Food", "Cart"],
+    tagTypes: ["Food", "Cart", "Order", "Notification", "Dispatch", "User"],
     endpoints: () => ({}),
 });
 

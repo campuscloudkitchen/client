@@ -30,6 +30,23 @@ export interface AddFoodFormData {
     photo: Blob | null; }
 
 
+export interface UpdateUserFormData {
+    firstname: string;
+    lastname: string;
+    photo: Blob | null; }
+
+
+export interface AddDispatchFormData {
+    firstname: string;
+    lastname: string;
+    email: string; }
+
+
+export interface OrderFormData {
+    deliveryAddress: string;
+    phoneNumber: string; }
+
+
 export interface PasswordResetFormData {
     password: string;
     confirmpassword: string; }
@@ -38,14 +55,16 @@ export interface SigninReturnType {
     isAuthLoading?: boolean;
     message?: string;
     token: string | null;
-    user: { 
-        id: string;
-        firstname: string;
-        lastname: string;
-        email: string;
-        role: string;
-        profileUrl: string;
-    } | null }
+    user: User | null }
+
+export interface User { 
+    id: string;
+    firstname: string;
+    lastname: string;
+    email: string;
+    role: string;
+    profileUrl: string;
+}
 
 export interface ToastProps {
     message: string | null;
@@ -56,6 +75,60 @@ export interface ToastProps {
 export interface CartItem {
     id: string,
     userId: string,
-    foodId: FoodType,
+    food?: FoodType,
+    foodId: FoodType | string,
     quantity: number
 }
+
+export interface UpdateQuantityPayload {
+    id: string,
+    type: string,
+    quantity: number
+}
+
+export interface OrderItem {
+  id: string;
+  foodId: string;
+  quantity: number;
+  price: number;
+  food: {
+    id: string;
+    name: string;
+    price: number;
+    photoUrl: string;
+  };
+}
+
+export interface Order {
+  id: string;
+  userId: string;
+  totalAmount: number;
+  status: "PENDING" | "CONFIRMED" | "DELIVERED" | "CANCELLED";
+  items: OrderItem[];
+  deliveryAddress: string;
+  phoneNumber: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Order {
+  id: string;
+  userId: string;
+  deliveryAddress: string;
+  phoneNumber: string;
+  totalAmount: number;
+  status: OrderStatus;
+  createdAt: string; 
+  updatedAt: string;  
+  items: OrderItem[];
+}
+
+export interface NotificationType {
+    id: string;
+    title: string;
+    reason: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export type OrderStatus = "PENDING" | "CONFIRMED" | "DELIVERED" | "CANCELLED";

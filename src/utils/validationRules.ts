@@ -1,4 +1,4 @@
-import type { AddFoodFormData, PasswordResetFormData, SigninFormData, SignupFormData } from "./types";
+import type { AddDispatchFormData, AddFoodFormData, OrderFormData, PasswordResetFormData, SigninFormData, SignupFormData, UpdateUserFormData } from "./types";
 
 export interface SignInValidationErrors {
     email: string | null;
@@ -18,6 +18,23 @@ export interface AddFoodValidationErrors {
     price: string | null;
     quantity: string | null;
     photo: string | null;
+}
+
+export interface UpdateUserValidationErrors {
+    firstname: string | null;
+    lastname: string | null;
+    photo: string | null;
+}
+
+export interface AddDispatchValidationErrors {
+    firstname: string | null;
+    lastname: string | null;
+    email: string | null;
+}
+
+export interface OrderValidationErrors {
+    deliveryAddress: string | null;
+    phoneNumber: string | null;
 }
 
 export interface ResetPasswordValidationErrors {
@@ -81,6 +98,16 @@ const validateFoodNameDetailed = (firstname: string): string | null => {
     return null;
 };
 
+const validateDeliveryAddressDetailed = (deliveryAddress: string): string | null => {
+    if (isEmpty(deliveryAddress)) return "Delivery Address is required.";
+    const trimmed = deliveryAddress.trim();
+    if (trimmed.length < 2) return "Delivery Address is too short (minimum 2 characters)!";
+    if (trimmed.length > 50) return "Delivery Address is too long (maximum 100 characters)!";
+    if (/^[-' ]+$/.test(trimmed)) return "Delivery Address must contain letters!";
+    if (trimmed === trimmed.toUpperCase() && trimmed.length > 1) return "Delivery Address appears to be all uppercase!";
+    return null;
+};
+
 const validateLastNameDetailed = (lastname: string): string | null => {
     if (isEmpty(lastname)) return "Last name is required.";
     const trimmed = lastname.trim();
@@ -126,6 +153,53 @@ const validatePasswordDetailed = (password: string) => {
     if (disallowCommon && commonPasswords.includes(password.toLowerCase())) return "That password is too common — choose a stronger password.";
     if (/([a-zA-Z0-9])\1\1/.test(password)) return "Avoid using the same character three times in a row.";
     return null; }
+
+
+const validatePhoneNumber = (phone: string) => {
+    const commonNumbers = [
+        "00000000",
+        "11111111",
+        "12345678",
+        "22222222",
+        "99999999"
+    ];
+
+    if (!phone || phone.trim() === "") return "Phone number is required.";
+
+    phone = phone.replace(/\s+/g, "");
+
+    const cleaned = phone.startsWith("+") ? phone.slice(1) : phone;
+
+    let local;
+
+    if (cleaned.startsWith("232")) {
+        local = cleaned.slice(3); 
+    } else if (cleaned.startsWith("0")) {
+        local = cleaned.slice(1); 
+    } else {
+        local = cleaned;
+    }
+
+    if (!/^\d{8}$/.test(local)) {
+        return "Phone number must be 8 digits after the country code.";
+    }
+
+    const prefix = parseInt(local.slice(0, 2)); 
+
+    if (prefix < 20 || prefix > 79) {
+        return "Invalid Sierra Leone phone prefix.";
+    }
+
+    if (commonNumbers.includes(local)) {
+        return "Phone number is too common or invalid — use a real number.";
+    }
+
+    if (/^(\d)\1+$/.test(local)) {
+        return "Phone number cannot be a repeated digit.";
+    }
+
+    return null;
+};
 
 
 
@@ -200,4 +274,26 @@ export const addFoodValidationRules = (formdata: AddFoodFormData) => {
     errors.name = validateFoodNameDetailed(formdata.name);
     errors.price = validatePriceDetailed(formdata.price);
     errors.quantity = validateQuantityDetailed(formdata.quantity);
+    return errors; }
+
+
+export const updateUserValidationRules = (formdata: UpdateUserFormData) => {
+    const errors: UpdateUserValidationErrors = { firstname: null, lastname: null, photo: null };
+    errors.firstname = validateFirstNameDetailed(formdata.firstname);
+    errors.lastname = validateLastNameDetailed(formdata.lastname);
+    return errors; }
+
+
+export const addDispatchValidationRules = (formdata: AddDispatchFormData) => {
+    const errors: AddDispatchValidationErrors = { firstname: null, lastname: null, email: null };
+    errors.firstname = validateFirstNameDetailed(formdata.firstname);
+    errors.lastname = validateLastNameDetailed(formdata.lastname);
+    errors.email = validateEmailDetailed(formdata.email);
+    return errors; }
+
+
+export const orderValidationRules = (formdata: OrderFormData) => {
+    const errors: OrderValidationErrors = { deliveryAddress: null, phoneNumber: null };
+    errors.deliveryAddress = validateDeliveryAddressDetailed(formdata.deliveryAddress);
+    errors.phoneNumber = validatePhoneNumber(formdata.phoneNumber);
     return errors; }

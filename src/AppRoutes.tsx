@@ -13,6 +13,9 @@ import Orders from './pages/Orders';
 import AddFood from './pages/AddFood';
 import UpdateFood from './pages/UpdateFood';
 import Cart from './pages/Cart';
+import AdminOrders from './pages/AdminOrders';
+import AddDispatch from './pages/AddDispatch';
+import EditProfile from './pages/EditProfile';
 
 const AppRoutes: React.FC = () => {
     return (
@@ -31,8 +34,11 @@ const AppRoutes: React.FC = () => {
                         <Route path='/kitchen/add' element={<AddFood />} />
                     </Route>
                     <Route path='/dispatch' element={<Dispatch />} />
+                    <Route path='/dispatch/add' element={<AddDispatch />} />
                     <Route path='/orders' element={<Orders />} />
+                    <Route path='/orders/admin' element={<AdminOrders />} />
                     <Route path='/profile/:id' element={<UserProfile />} />
+                    <Route path='/editprofile/:id' element={<EditProfile />} />
                 </Route>
             </Routes>
         </Router>

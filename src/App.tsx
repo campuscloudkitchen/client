@@ -1,12 +1,15 @@
 import React, { useEffect } from "react";
 import AppRoutes from "./AppRoutes";
 import { fetchBaseQuery, type BaseQueryApi } from "@reduxjs/toolkit/query";
-import { useAppDispatch } from "./app/hooks";
+import { useAppDispatch, useAppSelector } from "./app/hooks";
 import { clearCredentials, setCredentials } from "./app/authSlice";
+import CartInitializer from "./components/CartInitializer";
 
 const App: React.FC = () => {
 
   const dispatch = useAppDispatch();
+  const user = useAppSelector(state => state.auth.user)
+  const cart = useAppSelector(state => state.cart.items)
 
   useEffect(() => {
     const baseQuery = fetchBaseQuery({
@@ -28,7 +31,10 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <AppRoutes />
+    <>
+      {(user && cart.length < 1) && <CartInitializer />}
+      <AppRoutes />
+    </>
   );
 }
 

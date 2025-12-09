@@ -26,7 +26,7 @@ const Signin: React.FC = () => {
         if(data && data.message){
             setToastProps({ message: data.message, timeout: 5000, isError: false });
         }
-    }, [data])
+    }, [data]);
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -76,7 +76,7 @@ const Signin: React.FC = () => {
                     </div> 
                     {validationErrors.password && <p className='text-[0.65rem] text-red-600 mt-0.5 font-semibold'>{validationErrors.password}</p>}                  
                 </div>
-                <button type='submit' className='bg-pri hover:opacity-90 transition-all opacity-80 w-full p-2.5 rounded-md text-sm font-bold text-white'>
+                <button type='submit' className='bg-pri cursor-pointer hover:opacity-90 transition-all opacity-80 w-full p-2.5 rounded-md text-sm font-bold text-white'>
                     {signingIn ? "Signingin..." : "Signin"}
                 </button>
             </form>

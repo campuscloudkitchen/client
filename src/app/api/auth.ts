@@ -30,14 +30,14 @@ const authApi = api.injectEndpoints({
         }),
         forgotPassword: builder.mutation<{ message: string }, { email: string }>({
             query: (body) => ({
-                url: "/auth/forgotpassword",
+                url: "/forgotpassword",
                 method: "POST",
                 body,
             }),
         }),
-        resetPassword: builder.mutation<{ message: string }, PasswordResetFormData>({
+        resetPassword: builder.mutation<{ message: string }, {password: string, token: string}>({
             query: (body) => ({
-                url: "/auth/resetpassword",
+                url: "/resetpassword",
                 method: "POST",
                 body,
             }),

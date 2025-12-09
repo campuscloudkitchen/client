@@ -19,12 +19,30 @@ const cartApi = api.injectEndpoints({
             invalidatesTags: (result) => result ? [
                 {type: "Cart" as const, id: result.id}, { type: "Cart" as const, id: "LIST" }
             ] : [{ type: "Cart" as const, id: "LIST" }]
-        })
+        }),
+        removeFromCart: builder.mutation<{message: string}, string>({
+            query: (id) => ({
+                url: `/carts/${id}`,
+                method: "DELETE",
+            }),
+        }),
+        syncCart: builder.mutation<void, { userId: string; cart: CartItem[] }>({
+            query: ({ userId, cart }) => ({
+                url: "/carts/sync",
+                method: "POST",
+                body: { userId, cart }
+            }),
+            invalidatesTags: ["Cart"]
+        }),
     }),
 });
 
 
 export const {
     useGetCartQuery,
-    useAddToCartMutation
-} = cartApi
+    useAddToCartMutation,
+    useRemoveFromCartMutation,
+    useSyncCartMutation
+} = cartApi;
+
+export default cartApi;

@@ -1,32 +1,53 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { CartItem } from "../utils/types";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import type { CartItem, UpdateQuantityPayload } from "../utils/types";
 
 interface initType {
-    cart: CartItem[] | []
+    items: CartItem[]
 }
 
 const initialState: initType = {
-    cart: []
+    items: []
 }
 
 const cartSlice = createSlice({
     name: "cart",
     initialState,
     reducers: {
-        addToCart: (state, { payload }) => {
-            state.cart.push(payload);
+        setCartFromServer: (state, action: PayloadAction<CartItem[]>) => {
+            state.items = action.payload;
         },
-        removeFromCart: (state, { payload }) => {
-            if(state.cart.length > payload - 1){
-                state.cart.splice(payload, 1);            
+
+        addToCartLocal: (state, action: PayloadAction<CartItem>) => {
+            const item = state.items.find(i => i.id === action.payload.id);
+            if (item) item.quantity++;
+            else state.items.push({ ...action.payload, quantity: 1 });
+        },
+
+        updateCartQuantityLocal: (state, action: PayloadAction<UpdateQuantityPayload>) => {
+            const { id, type, quantity = 1 } = action.payload;
+            const item = state.items.find((i) => i.id === id);
+            if (!item) return;
+
+            if (type === "add") {
+                item.quantity += quantity;
+            } else if (type === "minus") {
+                item.quantity = Math.max(1, item.quantity - quantity);
             }
+        },
+
+        removeFromCartLocal: (state, action: PayloadAction<string>) => {
+            state.items = state.items.filter(i => i.id !== action.payload);
+        },
+
+        clearLocalCart: (state) => {
+            state.items = []
         }
     }
 });
 
 
 export const {
-    addToCart, removeFromCart
+    addToCartLocal, removeFromCartLocal, updateCartQuantityLocal, setCartFromServer, clearLocalCart
 } = cartSlice.actions;
 
 export const cartReducer = cartSlice.reducer; 

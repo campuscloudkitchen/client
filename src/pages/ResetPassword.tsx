@@ -1,6 +1,6 @@
 import { Eye, EyeOff } from 'lucide-react';
 import React, { useState, type ChangeEvent, type FormEvent } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import type { PasswordResetFormData, ToastProps } from '../utils/types';
 import { resetPasswordValidationRules, type ResetPasswordValidationErrors } from '../utils/validationRules';
 import { useResetPasswordMutation } from '../app/api/auth';
@@ -15,6 +15,8 @@ const ResetPassword: React.FC = () => {
     const [validationErrors, setValidationErrors] = useState<ResetPasswordValidationErrors>({ password: null, confirmpassword: null });
     const [toastProps, setToastProps] = useState<ToastProps>({ message: null, timeout: 0, isError: false });
 
+    const [params, setParams] = useSearchParams()
+    console.log(params.get("token"))
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -28,7 +30,7 @@ const ResetPassword: React.FC = () => {
         setValidationErrors(errors)
         if(Object.values(errors).filter(value => value !== null).length > 0) return 
         try{
-            const response = await resetPassword(formData).unwrap();
+            const response = await resetPassword({password: formData.password, token: params.get("token") }).unwrap();
             if(response.message) setToastProps({ message: response.message, timeout: 5000, isError: false });
         }catch(err){
             if(err && typeof err === "object" && "data" in err){
